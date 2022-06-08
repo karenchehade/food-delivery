@@ -98,6 +98,7 @@ class MyHomePage extends StatelessWidget {
                 height: 15,
               ),
               Container(
+                
                 height: 200,
                 child: ListView.builder(
                   scrollDirection: Axis.vertical,
@@ -105,14 +106,18 @@ class MyHomePage extends StatelessWidget {
                   itemBuilder: (_, i) {
                     return Row(
                       children: [
-                        Container(
-                          width: 100,
-                          height: 100,
-                          margin: const EdgeInsets.all(10),
-                          child: const CircleAvatar(
-                              radius: 40,
-                              backgroundImage:
-                                  AssetImage('assets/images/img3.jpg')),
+                        GestureDetector(
+                          onTap: () => Get.toNamed('/detail/'),
+                          child: Container(
+                            
+                            width: 100,
+                            height: 100,
+                            margin: const EdgeInsets.all(10),
+                            child: const CircleAvatar(
+                                radius: 40,
+                                backgroundImage:
+                                    AssetImage('assets/images/img3.jpg')),
+                          ),
                         ),
                         // const SizedBox(width: 10,),
                         Column(

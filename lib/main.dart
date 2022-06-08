@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'package:get/get_navigation/src/routes/get_route.dart';
+import 'detail-page.dart';
 import 'home-page.dart';
 
 
@@ -18,7 +20,11 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         // canvasColor: Colors.transparent,
       ),
-      home: MyHomePage(),
+       initialRoute: "/",
+      getPages: [
+       GetPage(name: "/", page: ()=> MyHomePage()),
+       GetPage(name: "/detail",page :()=> DetailPage()),
+      ],
     );
   }
 }
