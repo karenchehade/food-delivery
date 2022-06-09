@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:food/detail-controller.dart';
+import 'package:get/get.dart';
 
 class DetailPage extends StatelessWidget {
   const DetailPage({Key? key}) : super(key: key);
@@ -8,6 +10,8 @@ class DetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
+    final detailController = Get.put(DetailController());
+    int one = 1;
     return Scaffold(
       // appBar: AppBar(
       //   title: const Text('chattak'),
@@ -40,67 +44,72 @@ class DetailPage extends StatelessWidget {
                     children: [
                       Container(
                         margin: const EdgeInsets.all(15),
-                        child: const Text(
-                          'California Pizza',
+                        child: Text(
+                          Get.arguments['name'],
                           style: TextStyle(
                               fontSize: 30, fontWeight: FontWeight.bold),
                         ),
                       ),
                       Row(
                         children: [
-                          const Text(
-                            '\$ 14.00',
+                          Text(
+                            Get.arguments['price'],
                             style: TextStyle(
                                 fontSize: 25, fontWeight: FontWeight.bold),
                           ),
                           const SizedBox(
                             width: 150,
                           ),
-                          Container(
-                            child: Row(children: [
-                              Container(
-                                height: 25,
-                                width: 25,
-                                child: OutlinedButton(
-                                  style: OutlinedButton.styleFrom(
-                                    padding: const EdgeInsets.all(0),
-                                  ),
-                                  onPressed: () {},
-                                  child: const Text(
-                                    '-',
-                                    style: TextStyle(
-                                        fontSize: 17,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                  margin: const EdgeInsets.only(
-                                      right: 10, left: 10),
-                                  child: const Text(
-                                    '2',
-                                    style: TextStyle(
-                                        fontSize: 17,
-                                        fontWeight: FontWeight.bold),
-                                  )),
-                              Container(
-                                height: 25,
-                                width: 25,
-                                child: OutlinedButton(
-                                  style: OutlinedButton.styleFrom(
-                                    padding: const EdgeInsets.all(0),
-                                  ),
-                                  onPressed: () {},
-                                  child: const Text(
-                                    '+',
-                                    style: TextStyle(
-                                        fontSize: 17,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ),
-                              ),
-                            ]),
-                          )
+                          GetBuilder<DetailController>(
+                              builder: (_) => Container(
+                                    child: Row(children: [
+                                      Container(
+                                        height: 25,
+                                        width: 25,
+                                        child: OutlinedButton(
+                                          style: OutlinedButton.styleFrom(
+                                            padding: const EdgeInsets.all(0),
+                                          ),
+                                          onPressed: () {
+                                            detailController.removeQuantity();
+                                          },
+                                          child: const Text(
+                                            '-',
+                                            style: TextStyle(
+                                                fontSize: 17,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ),
+                                      ),
+                                      Container(
+                                          margin: const EdgeInsets.only(
+                                              right: 10, left: 10),
+                                          child: Text(
+                                            detailController.price.toString(),
+                                            style: TextStyle(
+                                                fontSize: 17,
+                                                fontWeight: FontWeight.bold),
+                                          )),
+                                      Container(
+                                        height: 25,
+                                        width: 25,
+                                        child: OutlinedButton(
+                                          style: OutlinedButton.styleFrom(
+                                            padding: const EdgeInsets.all(0),
+                                          ),
+                                          onPressed: () {
+                                            detailController.addQuantity();
+                                          },
+                                          child: const Text(
+                                            '+',
+                                            style: TextStyle(
+                                                fontSize: 17,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ),
+                                      ),
+                                    ]),
+                                  ))
                         ],
                       )
                     ],
@@ -130,7 +139,7 @@ class DetailPage extends StatelessWidget {
                               size: 50,
                             )),
                       ),
-                      const Text('4.7',
+                      Text(Get.arguments['rating'],
                           style: TextStyle(
                               fontSize: 20, fontWeight: FontWeight.bold)),
                       const Text('Rating',
@@ -158,7 +167,7 @@ class DetailPage extends StatelessWidget {
                               size: 50,
                             )),
                       ),
-                      const Text('228',
+                      Text(Get.arguments['calories'],
                           style: TextStyle(
                               fontSize: 20, fontWeight: FontWeight.bold)),
                       const Text('Calories',
@@ -185,7 +194,7 @@ class DetailPage extends StatelessWidget {
                               size: 50,
                             )),
                       ),
-                      const Text('30',
+                      Text(Get.arguments['duration'],
                           style: TextStyle(
                               fontSize: 20, fontWeight: FontWeight.bold)),
                       const Text('Duration',
@@ -197,10 +206,12 @@ class DetailPage extends StatelessWidget {
               ]),
             ),
             Container(
-              padding:const EdgeInsets.all(20),
+              padding: const EdgeInsets.all(20),
               margin: const EdgeInsets.all(10),
               child: const Text(
-                  'Lorem Ipsum is simply dummy text of the printing and typesetting industry. ', style: TextStyle(fontSize: 17),),
+                'Lorem Ipsum is simply dummy text of the printing and typesetting industry. ',
+                style: TextStyle(fontSize: 17),
+              ),
             )
           ],
         ),

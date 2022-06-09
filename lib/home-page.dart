@@ -8,8 +8,40 @@ class MyHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     List categories = ['Chinese', 'Indian', 'Italian', 'American'];
-    // bool pressAttention = true;
-    // var clickedIndex = -1;
+    var popItems = [
+      {
+        "name": "Greek Pizza",
+        "price": "\$15.00",
+        "rating": "4.7",
+        "calories": "229",
+        "duration": "30",
+        "img": "assets/images/img5.jpg",
+      },
+      {
+        "name": "Italian Pizza",
+        "price": "\$25.00",
+        "rating": "5.00",
+        "calories": "548",
+        "duration": "45",
+        "img": "assets/images/img3.jpg",
+      },
+      {
+        "name": "Calfornia Pizza",
+        "price": "\$20.00",
+        "rating": "3.2",
+        "calories": "229",
+        "duration": "20",
+        "img": "assets/images/img5.jpg",
+      },
+      {
+        "name": "kiko's Pizza",
+        "price": "\$15.00",
+        "rating": "4.7",
+        "calories": "229",
+        "duration": "15",
+        "img": "assets/images/img3.jpg",
+      }
+    ];
     final Homecontroller = Get.put(HomeController());
 
     return Scaffold(
@@ -56,30 +88,30 @@ class MyHomePage extends StatelessWidget {
                     itemBuilder: (_, i) {
                       return GestureDetector(
                           child: GetBuilder<HomeController>(
-                            builder: (_) => Container(
-                                margin: const EdgeInsets.only(
-                                    left: 10, right: 10, top: 10),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(30),
-                                  color: Homecontroller.clickedIndex == i
-                                      ? Colors.red
-                                      : Colors.white,
+                        builder: (_) => Container(
+                            margin: const EdgeInsets.only(
+                                left: 10, right: 10, top: 10),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(30),
+                              color: Homecontroller.clickedIndex == i
+                                  ? Colors.red
+                                  : Colors.white,
+                            ),
+                            child: Column(
+                              children: [
+                                IconButton(
+                                  iconSize: 100,
+                                  icon: SvgPicture.asset(
+                                    "assets/icons/pizza11.svg",
+                                  ),
+                                  onPressed: () {
+                                    Homecontroller.changeBgColor(i);
+                                  },
                                 ),
-                                child: Column(
-                                  children: [
-                                    IconButton(
-                                      iconSize: 100,
-                                      icon: SvgPicture.asset(
-                                        "assets/icons/pizza11.svg",
-                                      ),
-                                      onPressed: () {
-                                        Homecontroller.changeBgColor(i);
-                                      },
-                                    ),
-                                    Text(categories[i]),
-                                  ],
-                                )),
-                          ));
+                                Text(categories[i]),
+                              ],
+                            )),
+                      ));
                     }),
               ),
             ],
@@ -98,32 +130,39 @@ class MyHomePage extends StatelessWidget {
                 height: 15,
               ),
               Container(
-                
                 height: 200,
                 child: ListView.builder(
                   scrollDirection: Axis.vertical,
-                  itemCount: categories.length,
+                  itemCount: popItems.length,
                   itemBuilder: (_, i) {
                     return Row(
                       children: [
                         GestureDetector(
-                          onTap: () => Get.toNamed('/detail/'),
+                          onTap: () {
+                            Get.toNamed('/detail/', arguments: {
+                              'name': popItems[i]['name'].toString(),
+                              'price': popItems[i]['price'].toString(),
+                              'rating': popItems[i]['rating'].toString(),
+                              'calories': popItems[i]['calories'].toString(),
+                              'duration': popItems[i]['duration'].toString(),
+                              'img': popItems[i]['img'].toString(),
+                            });
+                          },
                           child: Container(
-                            
                             width: 100,
                             height: 100,
                             margin: const EdgeInsets.all(10),
-                            child: const CircleAvatar(
+                            child: CircleAvatar(
                                 radius: 40,
                                 backgroundImage:
-                                    AssetImage('assets/images/img3.jpg')),
+                                    AssetImage(popItems[i]['img'].toString())),
                           ),
                         ),
                         // const SizedBox(width: 10,),
                         Column(
-                          children: const [
-                            Text('Greek pizza'),
-                            Text('\$15.00'),
+                          children:[
+                            Text(popItems[i]['name'].toString()),
+                            Text( popItems[i]['price'].toString()),
                           ],
                         ),
                         const SizedBox(
