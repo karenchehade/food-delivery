@@ -1,13 +1,12 @@
 import 'package:get/get.dart';
 
 class DetailController extends GetxController {
-  int quantity = 0;
+  int quantity = 1;
   int price = 1;
+  int calorie = 0;
 
   @override
   void onInit() {
-    addQuantity();
-    removeQuantity();
     super.onInit();
   }
 
@@ -21,8 +20,9 @@ class DetailController extends GetxController {
     update();
   }
 
-  void updatePrice() {
-    price = price * quantity;
+  void updatePrice(pri, cal) {
+    price = pri * quantity;
+    calorie = cal * quantity;
     update();
   }
 }

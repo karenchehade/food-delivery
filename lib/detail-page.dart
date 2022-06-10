@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:food/detail-controller.dart';
+import 'package:food/home-page.dart';
 import 'package:get/get.dart';
 
 class DetailPage extends StatelessWidget {
@@ -13,11 +14,13 @@ class DetailPage extends StatelessWidget {
     final detailController = Get.put(DetailController());
     int one = 1;
     return Scaffold(
-      // appBar: AppBar(
-      //   title: const Text('chattak'),
-      //   backgroundColor: Colors.white,
-      // ),
-      body: Container(
+        // appBar: AppBar(
+        //   title: const Text('chattak'),
+        //   backgroundColor: Colors.white,
+
+        // ),
+        body: GetBuilder<DetailController>(
+      builder: (_) => Container(
         child: Column(
           children: [
             Stack(children: <Widget>[
@@ -29,6 +32,13 @@ class DetailPage extends StatelessWidget {
                       image: AssetImage('assets/images/img5.jpg'),
                     ),
                   )),
+              Container(
+                child: IconButton(
+                  onPressed: () => Get.to(() => MyHomePage()),
+                  icon: const Icon(Icons.home_outlined),
+                  color: Colors.black,
+                ),
+              ),
               Positioned(
                 right: 30,
                 top: height / 2 - 40,
@@ -52,64 +62,93 @@ class DetailPage extends StatelessWidget {
                       ),
                       Row(
                         children: [
-                          Text(
-                            Get.arguments['price'],
-                            style: TextStyle(
-                                fontSize: 25, fontWeight: FontWeight.bold),
-                          ),
+                          detailController.price != 1
+                              ? Text(
+                                  // ignore: prefer_interpolation_to_compose_strings
+                                  '\$' +
+                                      detailController.price.toString() +
+                                      '.00',
+                                  style: const TextStyle(
+                                      fontSize: 25,
+                                      fontWeight: FontWeight.bold),
+                                )
+                              : Text(
+                                  '\$' + Get.arguments['price'] + '.00',
+                                  style: const TextStyle(
+                                      fontSize: 25,
+                                      fontWeight: FontWeight.bold),
+                                ),
                           const SizedBox(
                             width: 150,
                           ),
-                          GetBuilder<DetailController>(
-                              builder: (_) => Container(
-                                    child: Row(children: [
-                                      Container(
-                                        height: 25,
-                                        width: 25,
-                                        child: OutlinedButton(
-                                          style: OutlinedButton.styleFrom(
-                                            padding: const EdgeInsets.all(0),
-                                          ),
-                                          onPressed: () {
-                                            detailController.removeQuantity();
-                                          },
-                                          child: const Text(
-                                            '-',
-                                            style: TextStyle(
-                                                fontSize: 17,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                        ),
-                                      ),
-                                      Container(
-                                          margin: const EdgeInsets.only(
-                                              right: 10, left: 10),
-                                          child: Text(
-                                            detailController.price.toString(),
-                                            style: TextStyle(
-                                                fontSize: 17,
-                                                fontWeight: FontWeight.bold),
-                                          )),
-                                      Container(
-                                        height: 25,
-                                        width: 25,
-                                        child: OutlinedButton(
-                                          style: OutlinedButton.styleFrom(
-                                            padding: const EdgeInsets.all(0),
-                                          ),
-                                          onPressed: () {
-                                            detailController.addQuantity();
-                                          },
-                                          child: const Text(
-                                            '+',
-                                            style: TextStyle(
-                                                fontSize: 17,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                        ),
-                                      ),
-                                    ]),
-                                  ))
+                          Row(children: [
+                            Container(
+                              height: 25,
+                              width: 25,
+                              child: OutlinedButton(
+                                style: OutlinedButton.styleFrom(
+                                  padding: const EdgeInsets.all(0),
+                                ),
+                                onPressed: () {
+                                      if (detailController.quantity > 1) {
+                                    detailController.removeQuantity();
+                                    detailController.updatePrice(
+                                        int.parse(Get.arguments['price']),
+                                        int.parse(Get.arguments['calories']));
+                                  } else {
+                                    Get.defaultDialog(
+                                        title: "hajj tekolll",
+                                        middleText:
+                                            "FlutterDevs is a protruding flutter app development company with "
+                                           ,
+                                        backgroundColor: Color.fromARGB(255, 245, 101, 90),
+                                        titleStyle:
+                                            TextStyle(color: Colors.black54),
+                                        middleTextStyle:
+                                            TextStyle(color: Colors.white),
+                                        radius: 30);
+                                  }
+                                 
+                                },
+                                child: const Text(
+                                  '-',
+                                  style: TextStyle(
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            ),
+                            Container(
+                                margin:
+                                    const EdgeInsets.only(right: 10, left: 10),
+                                child: Text(
+                                  detailController.quantity.toString(),
+                                  style: TextStyle(
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.bold),
+                                )),
+                            Container(
+                              height: 25,
+                              width: 25,
+                              child: OutlinedButton(
+                                style: OutlinedButton.styleFrom(
+                                  padding: const EdgeInsets.all(0),
+                                ),
+                                onPressed: () {
+                               detailController.addQuantity();
+                                  detailController.updatePrice(
+                                      int.parse(Get.arguments['price']),
+                                      int.parse(Get.arguments['calories']));
+                                },
+                                child: const Text(
+                                  '+',
+                                  style: TextStyle(
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            ),
+                          ]),
                         ],
                       )
                     ],
@@ -167,9 +206,15 @@ class DetailPage extends StatelessWidget {
                               size: 50,
                             )),
                       ),
-                      Text(Get.arguments['calories'],
-                          style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.bold)),
+                      detailController.calorie != 0
+                          ? Text(detailController.calorie.toString(),
+                              style: const TextStyle(
+                                  fontSize: 20, fontWeight: FontWeight.bold))
+                          : Text(
+                              Get.arguments['calories'],
+                              style: const TextStyle(
+                                  fontSize: 20, fontWeight: FontWeight.bold),
+                            ),
                       const Text('Calories',
                           style: TextStyle(
                               fontSize: 20, fontWeight: FontWeight.normal)),
@@ -216,6 +261,6 @@ class DetailPage extends StatelessWidget {
           ],
         ),
       ),
-    );
+    ));
   }
 }

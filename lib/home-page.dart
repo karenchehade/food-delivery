@@ -11,7 +11,7 @@ class MyHomePage extends StatelessWidget {
     var popItems = [
       {
         "name": "Greek Pizza",
-        "price": "\$15.00",
+        "price": "15",
         "rating": "4.7",
         "calories": "229",
         "duration": "30",
@@ -19,7 +19,7 @@ class MyHomePage extends StatelessWidget {
       },
       {
         "name": "Italian Pizza",
-        "price": "\$25.00",
+        "price": "25",
         "rating": "5.00",
         "calories": "548",
         "duration": "45",
@@ -27,7 +27,7 @@ class MyHomePage extends StatelessWidget {
       },
       {
         "name": "Calfornia Pizza",
-        "price": "\$20.00",
+        "price": "20",
         "rating": "3.2",
         "calories": "229",
         "duration": "20",
@@ -35,7 +35,7 @@ class MyHomePage extends StatelessWidget {
       },
       {
         "name": "kiko's Pizza",
-        "price": "\$15.00",
+        "price": "15",
         "rating": "4.7",
         "calories": "229",
         "duration": "15",
@@ -162,7 +162,7 @@ class MyHomePage extends StatelessWidget {
                         Column(
                           children:[
                             Text(popItems[i]['name'].toString()),
-                            Text( popItems[i]['price'].toString()),
+                            Text(   '\$' + popItems[i]['price'].toString() + '.00'),
                           ],
                         ),
                         const SizedBox(
